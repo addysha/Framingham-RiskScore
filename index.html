@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framingham Risk Score</title>
+    <link rel="stylesheet" href="css/style.css">
+    <scrip src="js/script.js"></scrip>
+
+
+</head>
+
+
+<body>
+    <header>
+        <h1>Framingham Risk Score Calculator</h1>
+      </header>
+      <main>
+        <form id="calculator-form">
+          <div>
+            <label for="sex">Select your sex:</label>
+            <input type="radio" name="sex" id="female" value="female">
+            <label for="female">Female</label>
+            <input type="radio" name="sex" id="male" value="male">
+            <label for="male">Male</label>
+          </div>
+          <div>
+            <label for="age">Enter your age:</label>
+            <input type="number" id="age" name="age" min="20" max="79">
+          </div>
+          <div>
+            <label for="cholesterol">Total cholesterol (mg/dL):</label>
+            <input type="number" id="cholesterol" name="cholesterol">
+          </div>
+          <div>
+            <label for="smoker">Are you a smoker?</label>
+            <input type="radio" name="smoker" id="smoker-yes" value="yes">
+            <label for="smoker-yes">Yes</label>
+            <input type="radio" name="smoker" id="smoker-no" value="no">
+            <label for="smoker-no">No</label>
+          </div>
+          <div>
+            <label for="hdl-cholesterol">HDL cholesterol (mg/dL):</label>
+            <input type="number" id="hdl-cholesterol" name="hdl-cholesterol">
+          </div>
+          <div>
+            <label for="blood-pressure">Systolic blood pressure (mm Hg):</label>
+            <input type="number" id="blood-pressure" name="blood-pressure">
+            <label for="treated">Have you been treated for blood pressure?</label>
+            <input type="radio" name="treated" id="treated-yes" value="yes">
+            <label for="treated-yes">Yes</label>
+            <input type="radio" name="treated" id="treated-no" value="no">
+            <label for="treated-no">No</label>
+          </div>
+          <button type="button" id="calculate-btn">Calculate</button>
+        </form>
+        <div id="result" class="hidden">
+          <!-- Display the calculated result here -->
+        </div>
+      </main>
+    
+</body>
+</html>
