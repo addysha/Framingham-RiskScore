@@ -5,16 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Framingham Risk Score</title>
     <link rel="stylesheet" href="css/style.css">
-    <scrip src="js/script.js"></scrip>
+    <script src="js/script.js"></script>
   </head>
   <body onload="start();">
     <div id="container">
       <div id="content">
         <div id="info">
           <h1> Framingham Risk Calulator</h1>
-          <form id="calculator-form">
-            <h2 id="Heading">Step 1: What is your Gender </h2>
-            <div id="gender-question" class="curr-quest">
+          <form id="calculator-form" onchange="validateForm();">
+
+            
+            <div id="page1" class="curr-quest">
+              <h2 id="s-Heading">Step 1: What is your Gender </h2>
               <label>Gender</label>
               <br>
               <input type="radio" id="male" name="gender" value="male" onlick="maleSetUp();" checked required>
@@ -24,40 +26,56 @@
               <br>
               <br>
             </div>
-            <div id="age-question" class="question">
+
+            <div id="page2" class="question">
+              <h2 id="s-Heading">Step 2: Enter your age </h2>
               <label for="age">Enter your age:</label>
               <br>
               <input type="number" id="age" name="age" min="20" max="79" onchange="AgeSetUp();">
               <br>
             </div>
-            <div id="cholesterol-question" class="question">
+
+
+            <div id="page3" class="question">
+              <h2 id="s-Heading">Step 3: Enter your total cholesterol </h2>
               <label for="total-cholesterol">Total cholesterol (mg/dL):</label>
               <input type="number" id="total-cholesterol" name="total-cholesterol">
               <br>
               <br>
             </div>
-            <div id="smoker-questions" class="question">
-              <label for="smoker-true">Smoker</label>
-              <input type="radio" id="smoker-no" name="" value="no" value="false" checked>
-              <label for="smoker-no">No</label>
-              <input type="radio" name="cigarette-smoker" id="smoker-yes" value="True">
-              <label for="smoker-yes">Yes</label>
-              <br>
-              <br>
+
+
+            <div id="page4" class="question">
+              <h2 id="s-Heading">Step 4: Are you a smoker </h2>
+            <label for="smoker-true">Smoker</label>
+            <input type="radio" id="smoker-no" name="smoker" value="no" checked>
+            <label for="smoker-no">No</label>
+            <input type="radio" name="smoker" id="smoker-yes" value="True">
+            <label for="smoker-yes">Yes</label>
+            <br>
+            <br>
             </div>
-            <div id="hdl-cholesterol-question" class="question">
+
+            
+            <div id="page5" class="question">
+              <h2 id="s-Heading">Step 5: Enter your total HDL cholestorol </h2>
               <label for="hdl-cholesterol">HDL cholesterol (mg/dL):</label>
               <br>
               <input type="number" id="hdl-cholesterol" name="hdl-cholesterol" min="0" max="200">
               <br>
               <br>
             </div>
-            <div id="sysBP-question" class="question">
+
+
+            <div id="page6" class="question">
+              <h2 id="s-Heading">Step 6: Enter your Systolic Blood Pressure </h2>
               <div id="systolic-number">
                 <label for="systolic-BP">Systolic Blood Pressure, (mm HG):</label>
                 <br>
                 <input type="number" id="SystolicBP" name="systolic-BP" min="0" max="300">
               </div>
+
+
               <div id="Sys-Treated">
                 <label for="treated-yes">Have you been treated?</label>
                 <br>
@@ -70,20 +88,25 @@
               </div>
             </div>
           </form>
+
           <div class="Btns">
-            <button class="Btns" onlick="prevStep()">Previous</button>
+            <button id="prev-btn" class="Btns" onclick="prevStep()">Previous</button>
             <button id="next-btn" class="Btns" onclick="nextStep()">Next</button>
           </div>
+
+
           <div id="results">
             <h2>Results:</h2>
             <h3 id="points-heading">Points <span id="points-span"></span>
             </h3>
             <h3 id="Risk-heading">10 Year Risk <span id="risk-span"></span>
             </h3>
-            <p> This test was calculated using the <a href>"https://en.wikipedia.org/wiki/Framingham_Risk_Score"></a>
-            </p>
+            <p> This test was calculated using the <a 
+              href>"https://en.wikipedia.org/wiki/Framingham_Risk_Score"></a></p>
             <button class="Btns" onclick="start();">Restart the test</button>
           </div>
+
+          
         </div>
       </div>
     </div>
