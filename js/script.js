@@ -93,6 +93,7 @@ function prevStep() {
         document.getElementById("page6").style.display = "none"; // Hide current question
         document.getElementById("next-btn").style.display = "inline-block"; // Show next button when going back from step 6
     }
+    document.getElementById("result-btn").style.display = "none"; // Hide the Results button
 }
 
 
