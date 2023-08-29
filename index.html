@@ -1,79 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Framingham Risk Score</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js"></script>
-</head>
-
-
-<body >
-    <header>
-        <h1>Framingham Risk Score Calculator</h1>
-      </header>
-      <main>
-        <form id="calculator-form">
-
-          <div id="page-sex">
-            <label for="sex">Select your sex:</label>
-            <input type="radio" name="sex" id="male" value="male">
-            <label for="female">Female</label>
-            <input type="radio" name="sex" id="male" value="male">
-            <label for="male">Male</label>
-            
+    <scrip src="js/script.js"></scrip>
+  </head>
+  <body onload="start();">
+    <div id="container">
+      <div id="content">
+        <div id="info">
+          <h1> Framingham Risk Calulator</h1>
+          <form id="calculator-form">
+            <h2 id="Heading">Step 1: What is your Gender </h2>
+            <div id="gender-question" class="curr-quest">
+              <label>Gender</label>
+              <br>
+              <input type="radio" id="male" name="gender" value="male" onlick="maleSetUp();" checked required>
+              <label for="Male">Male</label>
+              <input class="test" type="radio" name="gender" id="female" value="female" onlick="FemaleSetUp();">
+              <label class="test" for="Female">Female</label>
+              <br>
+              <br>
+            </div>
+            <div id="age-question" class="question">
+              <label for="age">Enter your age:</label>
+              <br>
+              <input type="number" id="age" name="age" min="20" max="79" onchange="AgeSetUp();">
+              <br>
+            </div>
+            <div id="cholesterol-question" class="question">
+              <label for="total-cholesterol">Total cholesterol (mg/dL):</label>
+              <input type="number" id="total-cholesterol" name="total-cholesterol">
+              <br>
+              <br>
+            </div>
+            <div id="smoker-questions" class="question">
+              <label for="smoker-true">Smoker</label>
+              <input type="radio" id="smoker-no" name="" value="no" value="false" checked>
+              <label for="smoker-no">No</label>
+              <input type="radio" name="cigarette-smoker" id="smoker-yes" value="True">
+              <label for="smoker-yes">Yes</label>
+              <br>
+              <br>
+            </div>
+            <div id="hdl-cholesterol-question" class="question">
+              <label for="hdl-cholesterol">HDL cholesterol (mg/dL):</label>
+              <br>
+              <input type="number" id="hdl-cholesterol" name="hdl-cholesterol" min="0" max="200">
+              <br>
+              <br>
+            </div>
+            <div id="sysBP-question" class="question">
+              <div id="systolic-number">
+                <label for="systolic-BP">Systolic Blood Pressure, (mm HG):</label>
+                <br>
+                <input type="number" id="SystolicBP" name="systolic-BP" min="0" max="300">
+              </div>
+              <div id="Sys-Treated">
+                <label for="treated-yes">Have you been treated?</label>
+                <br>
+                <input type="radio" id="treated-yes" name="treated" value="True">
+                <label for="treated-yes">Yes</label>
+                <br>
+                <input type="radio" id="treated-no" name="treated" value="false">
+                <Lable for="treated-no">No</Lable>
+                <br>
+              </div>
+            </div>
+          </form>
+          <div class="Btns">
+            <button class="Btns" onlick="prevStep()">Previous</button>
+            <button id="next-btn" class="Btns" onclick="nextStep()">Next</button>
           </div>
-
-
-          <div id="page-age" class="page hidden">
-            <label for="age">Enter your age:</label>
-            <input type="number" id="age" name="age" min="20" max="79">
-          
+          <div id="results">
+            <h2>Results:</h2>
+            <h3 id="points-heading">Points <span id="points-span"></span>
+            </h3>
+            <h3 id="Risk-heading">10 Year Risk <span id="risk-span"></span>
+            </h3>
+            <p> This test was calculated using the <a href>"https://en.wikipedia.org/wiki/Framingham_Risk_Score"></a>
+            </p>
+            <button class="Btns" onclick="start();">Restart the test</button>
           </div>
-
-
-          <div id="page-cholesterol" class="page hidden">
-            <label for="cholesterol">Total cholesterol (mg/dL):</label>
-            <input type="number" id="cholesterol" name="cholesterol">
-            
-          </div>
-
-
-          <div id="page-smoker" class="page hidden">
-            <label for="smoker">Are you a smoker?</label>
-            <input type="radio" name="smoker" id="smoker-yes" value="yes">
-            <label for="smoker-yes">Yes</label>
-            <input type="radio" name="smoker" id="smoker-no" value="no">
-            <label for="smoker-no">No</label>
-           
-          </div>
-
-
-          <div id="page-cholesterolHDL" class="page hidden">
-            <label for="hdl-cholesterol">HDL cholesterol (mg/dL):</label>
-            <input type="number" id="hdl-cholesterol" name="hdl-cholesterol">
-           
-          </div>
-
-
-          <div id="page-systolic-treated" class="page hidden">
-            <label for="blood-pressure">Systolic blood pressure (mm Hg):</label>
-            <input type="number" id="blood-pressure" name="blood-pressure">
-            <label for="treated">Have you been treated for blood pressure?</label>
-            <input type="radio" name="treated" id="treated-yes" value="yes">
-            <label for="treated-yes">Yes</label>
-            <input type="radio" name="treated" id="treated-no" value="no">
-            <label for="treated-no">No</label>
-          </div>
-
-          
-
-        </form>
-        <div id="result" class="hidden">
-          <!-- Display the calculated result here -->
         </div>
-      </main>
-    
-</body>
+      </div>
+    </div>
+  </body>
 </html>
