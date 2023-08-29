@@ -12,7 +12,7 @@
       <div id="content">
         <div id="info">
           <h1> Framingham Risk Calulator</h1>
-          <form id="calculator-form" onchange="validateForm();">
+          <form id="calculator-form">
 
             
             <div id="page1" class="curr-quest">
@@ -46,7 +46,7 @@
 
 
             <div id="page4" class="question">
-              <h2 id="s-Heading">Step 4: Are you a smoker </h2>
+            <h2 id="s-Heading">Step 4: Are you a smoker </h2>
             <label for="smoker-true">Smoker</label>
             <input type="radio" id="smoker-no" name="smoker" value="no" checked>
             <label for="smoker-no">No</label>
@@ -83,17 +83,17 @@
                 <label for="treated-yes">Yes</label>
                 <br>
                 <input type="radio" id="treated-no" name="treated" value="false">
-                <Lable for="treated-no">No</Lable>
+                <label for="treated-no">No</label>
                 <br>
-              </div>
+            </div>
             </div>
           </form>
 
-          <div class="Btns">
-            <button id="prev-btn" class="Btns" onclick="prevStep()">Previous</button>
-            <button id="next-btn" class="Btns" onclick="nextStep()">Next</button>
-            <button id="result-btn" class="Btns" onclick="showResults()">Results</button>
-        </div>
+          <div id="Btns">
+            <button class="Btns" id="prev-btn" onclick="prevStep()">Previous</button>
+            <button class="Btns" id="next-btn" onclick="nextStep()" style="display: none;">Next</button>
+            <button class="Btns" id="result-btn" onclick="nextStep()" style="display: none;">Result</button>
+          </div>
 
 
           <div id="results">
@@ -102,9 +102,12 @@
             </h3>
             <h3 id="Risk-heading">10 Year Risk <span id="risk-span"></span>
             </h3>
-            <p> This test was calculated using the <a 
-              href>"https://en.wikipedia.org/wiki/Framingham_Risk_Score"></a></p>
-            <button class="Btns" onclick="start();">Restart the test</button>
+            <p> This test was calculated using the <a href="https://en.wikipedia.org/wiki/Framingham_Risk_Score">Framingham Risk Score</a></p>
+
+            <button id="restart-btn" onclick="restart();">Restart the test</button>
+
+
+
           </div>
 
           
