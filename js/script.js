@@ -22,25 +22,19 @@ var step;
 
 
 
-function showQuestion(stepId) {
-    var question = document.getElementById(stepId);
-    question.style.display = "block";
-}
-
-function hideQuestion(stepId) {
-    var question = document.getElementById(stepId);
-    question.style.display = "none";
-}
-
-
 function start() {
     points = 0;
     step =1;
 
     document.getElementById("calculator-form").reset();
     document.getElementById("calculator-form").style.display = "block";
-    document.getElementById("Btns").style.display = "block";
+   
     document.getElementById("results").style.display = "none";
+
+    // Show only the "Next" button initially
+    document.getElementById("prev-btn").style.display = "none";
+    document.getElementById("next-btn").style.display = "inline-block";
+    document.getElementById("result-btn").style.display = "none";
 
     
 }
@@ -63,7 +57,8 @@ function nextStep() {
     } else if (step == 5) {
         step++;
         getSystolicBP();
-        document.getElementById("next-btn").style.display = "none"; // Hide next button on the last step
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("result-btn").style.display = "inline-block" // Hide next button on the last step
     }
     document.getElementById("prev-btn").style.display = "inline-block"; // Show previous button for steps 2 and onward
 }
