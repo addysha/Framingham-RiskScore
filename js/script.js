@@ -19,6 +19,7 @@ var treated;
 var tenYearRisk;
 var points;
 var step;
+var isMale = false;
 
 
 
@@ -82,9 +83,19 @@ function nextStep() {
         if(!validateSystolicBloodPressureInput() || !validateTreatedRadioInput() ){
             return;
         }
-        calculateRisk();
+        const totalPoints = calculateTotalPoints();
+        const riskPercentage = calculateRisk(totalPoints);
+
+
         document.getElementById("next-btn").style.display = "none";
         document.getElementById("result-btn").style.display = "inline-block"; // Show Result button on the last step
+
+        // Display results
+        document.getElementById("calculator-form").style.display = "none";
+        document.getElementById("Btns").style.display = "none";
+        document.getElementById("results").style.display = "block";
+        document.getElementById("points-span").textContent = totalPoints;
+        document.getElementById("risk-span").textContent = riskPercentage;
     }
     document.getElementById("prev-btn").style.display = "inline-block"; // Show previous button for steps 2 and onward
 }
@@ -230,11 +241,13 @@ function AgeSetUp() {
 }
   
 function maleSetUp() {
-    gender = "male";
+    isMale = true;
+    
 }
   
 function FemaleSetUp() {
-    gender = "female";
+    isMale = false;
+    
 }
   
 function calculateRisk() {
@@ -253,6 +266,322 @@ function calculateRisk() {
     document.getElementById("risk-span").textContent = tenYearRisk + "%";
     
 }
+//This is fine it works
+function calculateTotalPoints() {
+    const age = parseInt(document.getElementById("age").value);
+    const totalCholesterol = parseInt(document.getElementById("total-cholesterol").value);
+    const isSmoker = document.querySelector('input[name="smoker"]:checked').value === "True";
+    const hdlCholesterol = parseInt(document.getElementById("hdl-cholesterol").value);
+    const systolicBP = parseInt(document.getElementById("SystolicBP").value);
+    const isTreated = document.querySelector('input[name="treated"]:checked').value === "True";
+    const isMale = document.querySelector('input[name="gender"]:checked').value === "male";
+
+    const agePoints = calculateAgePoints(age, isMale);
+    const cholesterolPoints = calculateTotalCholesterolPoints(age, totalCholesterol, isMale);
+    const smokerPoints = calculateSmokerPoints(isSmoker, age, isMale);
+    const hdlPoints = calculateHDLPoints(hdlCholesterol, isMale);
+    const systolicBPPoints = calculateSystolicBPPoints(systolicBP, isTreated, isMale);
+
+    const totalPoints = agePoints + cholesterolPoints + smokerPoints + hdlPoints + systolicBPPoints;
+    return totalPoints;
+}
+//This is fine it works as well
+function calculateSystolicBPPoints(systolicBP, isTreated, isMale) {
+    let points = 0;
+
+    if (isMale) {
+        if (!isTreated) {
+            if (systolicBP < 120) {
+                points += 0;
+            } else if (systolicBP >= 120 && systolicBP <= 129) {
+                points += 0;
+            } else if (systolicBP >= 130 && systolicBP <= 139) {
+                points += 1;
+            } else if (systolicBP >= 140 && systolicBP <= 159) {
+                points += 1;
+            } else if (systolicBP >= 160) {
+                points += 2;
+            }
+        } else { // Treated
+            if (systolicBP < 120) {
+                points += 0;
+            } else if (systolicBP >= 120 && systolicBP <= 129) {
+                points += 1;
+            } else if (systolicBP >= 130 && systolicBP <= 139) {
+                points += 2;
+            } else if (systolicBP >= 140 && systolicBP <= 159) {
+                points += 2;
+            } else if (systolicBP >= 160) {
+                points += 3;
+            }
+        }
+    } else { // Female
+        if (!isTreated) {
+            if (systolicBP < 120) {
+                points += 0;
+            } else if (systolicBP >= 120 && systolicBP <= 129) {
+                points += 1;
+            } else if (systolicBP >= 130 && systolicBP <= 139) {
+                points += 2;
+            } else if (systolicBP >= 140 && systolicBP <= 159) {
+                points += 3;
+            } else if (systolicBP >= 160) {
+                points += 4;
+            }
+        } else { // Treated
+            if (systolicBP < 120) {
+                points += 0;
+            } else if (systolicBP >= 120 && systolicBP <= 129) {
+                points += 3;
+            } else if (systolicBP >= 130 && systolicBP <= 139) {
+                points += 4;
+            } else if (systolicBP >= 140 && systolicBP <= 159) {
+                points += 5;
+            } else if (systolicBP >= 160) {
+                points += 6;
+            }
+        }
+    }
+
+    return points;
+}
+
+//This also works
+function calculateHDLPoints(hdlCholesterol, isMale) {
+    let points = 0;
+
+    if (isMale) {
+        if (hdlCholesterol >= 60) {
+            points -= 1;
+        } else if (hdlCholesterol >= 50 && hdlCholesterol <= 59) {
+            points += 0;
+        } else if (hdlCholesterol >= 40 && hdlCholesterol <= 49) {
+            points += 1;
+        } else if (hdlCholesterol < 40) {
+            points += 2;
+        }
+    } else { // Female
+        if (hdlCholesterol >= 60) {
+            points -= 1;
+        } else if (hdlCholesterol >= 50 && hdlCholesterol <= 59) {
+            points += 0;
+        } else if (hdlCholesterol >= 40 && hdlCholesterol <= 49) {
+            points += 1;
+        } else if (hdlCholesterol < 40) {
+            points += 2;
+        }
+    }
+
+    return points;
+}
+
+// This also works
+function calculateSmokerPoints(isSmoker, age, isMale) {
+    let points = 0;
+
+    if (isSmoker) {
+        if (isMale) {
+            if (age >= 20 && age <= 39) {
+                points += 8;
+            } else if (age >= 40 && age <= 49) {
+                points += 5;
+            } else if (age >= 50 && age <= 59) {
+                points += 3;
+            } else if (age >= 60 && age <= 69) {
+                points += 1;
+            } else if (age >= 70 && age <= 79) {
+                points += 1;
+            }
+        } else if (isMale() == false){ // Female
+            if (age >= 20 && age <= 39) {
+                points += 9;
+            } else if (age >= 40 && age <= 49) {
+                points += 7;
+            } else if (age >= 50 && age <= 59) {
+                points += 4;
+            } else if (age >= 60 && age <= 69) {
+                points += 2;
+            } else if (age >= 70 && age <= 79) {
+                points += 1;
+            }
+        }
+    } else {
+        points = 0;
+    }
+
+    return points;
+}
+
+//This also works
+function calculateTotalCholesterolPoints(age, totalCholesterol, isMale) {
+    let points = 0;
+
+    if (isMale) {
+        if (age >= 20 && age <= 39) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 4;
+            else if (totalCholesterol <= 239) points += 7;
+            else if (totalCholesterol <= 279) points += 9;
+            else points += 11;
+        } else if (age >= 40 && age <= 49) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 3;
+            else if (totalCholesterol <= 239) points += 5;
+            else if (totalCholesterol <= 279) points += 6;
+            else points += 8;
+        } else if (age >= 50 && age <= 59) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 2;
+            else if (totalCholesterol <= 239) points += 3;
+            else if (totalCholesterol <= 279) points += 4;
+            else points += 5;
+        } else if (age >= 60 && age <= 69) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 1;
+            else if (totalCholesterol <= 239) points += 1;
+            else if (totalCholesterol <= 279) points += 2;
+            else points += 3;
+        } else if (age >= 70 && age <= 79) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 0;
+            else if (totalCholesterol <= 239) points += 0;
+            else if (totalCholesterol <= 279) points += 1;
+            else points += 1;
+        }
+    } else{
+        if (age >= 20 && age <= 39) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 4;
+            else if (totalCholesterol <= 239) points += 8;
+            else if (totalCholesterol <= 279) points += 11;
+            else points += 13;
+        } else if (age >= 40 && age <= 49) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 3;
+            else if (totalCholesterol <= 239) points += 6;
+            else if (totalCholesterol <= 279) points += 8;
+            else points += 10;
+        } else if (age >= 50 && age <= 59) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 2;
+            else if (totalCholesterol <= 239) points += 4;
+            else if (totalCholesterol <= 279) points += 5;
+            else points += 7;
+        } else if (age >= 60 && age <= 69) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 1;
+            else if (totalCholesterol <= 239) points += 2;
+            else if (totalCholesterol <= 279) points += 3;
+            else points += 4;
+        } else if (age >= 70 && age <= 79) {
+            if (totalCholesterol < 160) points -= 0;
+            else if (totalCholesterol <= 199) points += 1;
+            else if (totalCholesterol <= 239) points += 1;
+            else if (totalCholesterol <= 279) points += 2;
+            else points += 2;
+        }
+    }
+
+    return points;
+}
+
+//This also works
+function calculateAgePoints(age, isMale) {
+    let points = 0;
+
+    if (isMale) {
+        if (age >= 20 && age <= 34) points -= 9;
+        else if (age >= 35 && age <= 39) points -= 4;
+        else if (age >= 40 && age <= 44) points += 0;
+        else if (age >= 45 && age <= 49) points += 3;
+        else if (age >= 50 && age <= 54) points += 6;
+        else if (age >= 55 && age <= 59) points += 8;
+        else if (age >= 60 && age <= 64) points += 10;
+        else if (age >= 65 && age <= 69) points += 11;
+        else if (age >= 70 && age <= 74) points += 12;
+        else if (age >= 75 && age <= 79) points += 13;
+    } else {
+        if (age >= 20 && age <= 34) points -= 7;
+        else if (age >= 35 && age <= 39) points -= 3;
+        else if (age >= 40 && age <= 44) points += 0;
+        else if (age >= 45 && age <= 49) points += 3;
+        else if (age >= 50 && age <= 54) points += 6;
+        else if (age >= 55 && age <= 59) points += 8;
+        else if (age >= 60 && age <= 64) points += 10;
+        else if (age >= 65 && age <= 69) points += 12;
+        else if (age >= 70 && age <= 74) points += 14;
+        else if (age >= 75 && age <= 79) points += 16;
+    }
+
+    return points;
+}
+
+function calculateRisk(totalPoints, isMale) {
+    console.log("Calculating risk for totalPoints:", totalPoints);
+
+    if (isMale) {
+        if (totalPoints === 0) {
+            return "<1%";
+        } else if (totalPoints >= 1 && totalPoints <= 4) {
+            return "1%";
+        } else if (totalPoints >= 5 && totalPoints <= 6) {
+            return "2%";
+        } else if (totalPoints === 7) {
+            return "3%";
+        } else if (totalPoints === 8) {
+            return "4%";
+        } else if (totalPoints === 9) {
+            return "5%";
+        } else if (totalPoints === 10) {
+            return "6%";
+        } else if (totalPoints === 11) {
+            return "8%";
+        } else if (totalPoints === 12) {
+            return "10%";
+        } else if (totalPoints === 13) {
+            return "12%";
+        } else if (totalPoints === 14) {
+            return "16%";
+        } else if (totalPoints === 15) {
+            return "20%";
+        } else if (totalPoints === 16) {
+            return "25%";
+        } else if (totalPoints >= 17) {
+            return "Over 30%";
+        }
+    } else{ // Female
+        if (totalPoints < 9) {
+            return "<1%";
+        } else if (totalPoints >= 9 && totalPoints <= 12) {
+            return "1%";
+        } else if (totalPoints === 13 || totalPoints === 14) {
+            return "2%";
+        } else if (totalPoints === 15) {
+            return "3%";
+        } else if (totalPoints === 16) {
+            return "4%";
+        } else if (totalPoints === 17) {
+            return "5%";
+        } else if (totalPoints === 18) {
+            return "6%";
+        } else if (totalPoints === 19) {
+            return "8%";
+        } else if (totalPoints === 20) {
+            return "11%";
+        } else if (totalPoints === 21) {
+            return "14%";
+        } else if (totalPoints === 22) {
+            return "17%";
+        } else if (totalPoints === 23) {
+            return "22%";
+        } else if (totalPoints === 24) {
+            return "27%";
+        } else if (totalPoints >= 25) {
+            return "Over 30%";
+        }
+    }
+}
+
 
 function displayError(element, msg){               
     if (element.nextSibling.tagName === "SPAN" && element.nextSibling.textContent.trim() === msg.trim()) {
@@ -350,4 +679,3 @@ document.getElementById("result-btn").addEventListener("click", calculateRisk);
 document.getElementById("prev-btn").addEventListener("click", prevStep);
 document.getElementById("next-btn").addEventListener("click", nextStep);
 document.getElementById("restart-btn").addEventListener("click", restart);
-
