@@ -6,7 +6,7 @@ const MIN_CHOLESTEROL_HDL = 0;
 const MAX_CHOLESTEROL_HDL = 200;
 const MIN_SYSTOLIC_BLOOD_PRESSURE = 0;
 const MAX_SYSTOLIC_BLOOD_PRESSURE = 300;
-const pages = ["page1", "page2", "page3", "page4", "page5", "page6"];
+
 
 var currentPageIndex;
 var gender;
@@ -19,10 +19,11 @@ var treated;
 var tenYearRisk;
 var points;
 var step;
-var isMale = false;
+var isMale;
 
 
 
+// Form loading and restarting function to reload the page and start it again
 function start() {
     points = 0;
     step = 1;
@@ -46,7 +47,7 @@ function start() {
 }
 
   
-  
+// Function to proceed to the next step with form validation and totalrisk percentage caclulation logic
 function nextStep() {
     if (step === 1) {
         if (!validateForm()) {
@@ -84,7 +85,7 @@ function nextStep() {
             return;
         }
         const totalPoints = calculateTotalPoints();
-        const riskPercentage = calculateRisk(totalPoints);
+        const riskPercentage = calculateRiskPercentage(totalPoints);
 
 
         document.getElementById("next-btn").style.display = "none";
@@ -100,6 +101,7 @@ function nextStep() {
     document.getElementById("prev-btn").style.display = "inline-block"; // Show previous button for steps 2 and onward
 }
 
+// Function to go back a step
 function prevStep() {
     if (step == 2) {
         step--;
@@ -134,7 +136,7 @@ function prevStep() {
 }
 
 
-
+// Functions to display the correct pages 
 // ---------------------------------------------------------------------------
 function getAge(){
     document.getElementById("s-Heading").innerText = "Step " + step + ": What is your age?";
@@ -175,6 +177,7 @@ function getSystolicBP(){
 }
 // ---------------------------------------------------------------------------
 
+// Form validation and erros
 function validateForm() {
     switch (step) {
         case 1:
@@ -231,25 +234,23 @@ function validateForm() {
     // If all validation passes for the current step, return true
     return true;
 }
-  
+// Getting gender input through button
 function getGender() {
     gender = document.querySelector('input[name="gender"]:checked').value;
+    if(gender === "male"){
+        isMale = true;
+    }
+    else{
+        isMale = false;
+    }
+    console.log(isMale)
 }
-  
+// Getting Age input via input
 function AgeSetUp() {
     age = parseInt(document.getElementById("age").value);
 }
-  
-function maleSetUp() {
-    isMale = true;
-    
-}
-  
-function FemaleSetUp() {
-    isMale = false;
-    
-}
-  
+
+// Function to formulate the total risk and show the correct page
 function calculateRisk() {
     // Validate treated radio button input
     if (!validateTreatedRadioInput()) {
@@ -266,7 +267,8 @@ function calculateRisk() {
     document.getElementById("risk-span").textContent = tenYearRisk + "%";
     
 }
-//This is fine it works
+
+// Function that takes all the total points into one
 function calculateTotalPoints() {
     const age = parseInt(document.getElementById("age").value);
     const totalCholesterol = parseInt(document.getElementById("total-cholesterol").value);
@@ -285,7 +287,7 @@ function calculateTotalPoints() {
     const totalPoints = agePoints + cholesterolPoints + smokerPoints + hdlPoints + systolicBPPoints;
     return totalPoints;
 }
-//This is fine it works as well
+// Function to calculate Systolic points male and female 
 function calculateSystolicBPPoints(systolicBP, isTreated, isMale) {
     let points = 0;
 
@@ -346,7 +348,7 @@ function calculateSystolicBPPoints(systolicBP, isTreated, isMale) {
     return points;
 }
 
-//This also works
+// Function to calculate HDLCholesterol points male and female 
 function calculateHDLPoints(hdlCholesterol, isMale) {
     let points = 0;
 
@@ -375,7 +377,7 @@ function calculateHDLPoints(hdlCholesterol, isMale) {
     return points;
 }
 
-// This also works
+// Function to calculate Smoker points male and female 
 function calculateSmokerPoints(isSmoker, age, isMale) {
     let points = 0;
 
@@ -392,7 +394,7 @@ function calculateSmokerPoints(isSmoker, age, isMale) {
             } else if (age >= 70 && age <= 79) {
                 points += 1;
             }
-        } else if (isMale() == false){ // Female
+        } else{ // Female
             if (age >= 20 && age <= 39) {
                 points += 9;
             } else if (age >= 40 && age <= 49) {
@@ -411,8 +413,7 @@ function calculateSmokerPoints(isSmoker, age, isMale) {
 
     return points;
 }
-
-//This also works
+// Function to calculate Cholesterol points male and female 
 function calculateTotalCholesterolPoints(age, totalCholesterol, isMale) {
     let points = 0;
 
@@ -484,8 +485,7 @@ function calculateTotalCholesterolPoints(age, totalCholesterol, isMale) {
 
     return points;
 }
-
-//This also works
+// Function to calculate all age points male and female
 function calculateAgePoints(age, isMale) {
     let points = 0;
 
@@ -515,9 +515,11 @@ function calculateAgePoints(age, isMale) {
 
     return points;
 }
-
-function calculateRisk(totalPoints, isMale) {
+//Function to calculate risk percentage
+function calculateRiskPercentage(totalPoints) {
     console.log("Calculating risk for totalPoints:", totalPoints);
+    getGender();
+    console.log(isMale);
 
     if (isMale) {
         if (totalPoints === 0) {
@@ -582,7 +584,7 @@ function calculateRisk(totalPoints, isMale) {
     }
 }
 
-
+// Function to display error messages
 function displayError(element, msg){               
     if (element.nextSibling.tagName === "SPAN" && element.nextSibling.textContent.trim() === msg.trim()) {
         return;                 
@@ -660,6 +662,7 @@ function validateTreatedRadioInput() {
     return validateRadioInput(treatedRadioButtons);
 }
 
+// Function to restart the form
 function restart() {
     
 
@@ -675,7 +678,7 @@ function restart() {
 }
   
 document.addEventListener("DOMContentLoaded", start)
-document.getElementById("result-btn").addEventListener("click", calculateRisk);
+document.getElementById("result-btn").addEventListener("click", () => calculateRisk(totalPoints, isMale));
 document.getElementById("prev-btn").addEventListener("click", prevStep);
 document.getElementById("next-btn").addEventListener("click", nextStep);
 document.getElementById("restart-btn").addEventListener("click", restart);
