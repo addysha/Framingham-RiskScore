@@ -2,52 +2,118 @@
 .question:not(:first-child) {
   display: none;
 }
-
+/* Style for the author info */
+/* Style for the author info */
+#author-info {
+  position: absolute;
+  bottom: 10px;
+ /* Adjust vertical position if needed */
+  right: calc(50% - 300px);
+ /* Center horizontally and align to the right */
+  width: 600px;
+  text-align: center;
+ /* Center the text horizontally */
+  font-family: 'DM Sans', sans-serif;
+  color: #1c44f4;
+}
 /* Style for the container */
 #container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
+  background-color: #ced7fb;
+  border: 1px solid #0000000e;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: -5px -1px 18px 6px rgb(58 19 221 / 20%);
+  position: relative;
 }
-
 /* Style for the header */
 h1 {
-  font-size: 24px;
+  font-size: 40px;
   margin-bottom: 20px;
+  text-align: center;
+  font-family: 'PT Sans', sans-serif;
 }
-
+#s-Heading{
+  font-family: 'PT Sans', sans-serif;
+}
+#points-heading{
+  font-family: 'PT Sans', sans-serif;
+}
+#Results{
+  font-family: 'PT Sans', sans-serif;
+}
+#Risk-heading{
+  font-family: 'PT Sans', sans-serif;
+}
+#ref-link{
+  font-family: 'DM Sans', sans-serif;
+}
+#ref-link a{
+  text-decoration: underline;
+}
+label{
+  font-family: 'DM Sans', sans-serif;
+}
+.error-msg {
+  display: inline-block;
+  margin-top: -4px;
+  vertical-align: middle;
+  font-family: 'DM Sans', sans-serif;
+}
 /* Style for the form steps */
 .curr-quest {
   display: block;
 }
-
 /* Style for the navigation buttons */
 .Btns {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #004cff;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  transition: background-color 0.1s, color 0.1s;
+ /* Add transition for smooth effect */
 }
-
+/* Add hover effect */
+.Btns:hover {
+  background-color: #0028a8;
+ /* Change background color on hover */
+  color: #eaeaea;
+ /* Change text color on hover */
+}
+/* Add active (clicked) effect */
+.Btns:active {
+  animation: flash 0.5s;
+}
+/* Flash animation */
+@keyframes flash {
+  0%, 100% {
+      background-color: #c3d7f8;
+     /* Change background color during animation */
+      color: #ffffff;
+     /* Change text color during animation */
+ }
+  50% {
+      background-color: #004cff;
+     /* Back to original background color at midpoint */
+      color: #ffffff;
+     /* Back to original text color at midpoint */
+ }
+}
 /* Style for the results section */
 #results {
   display: none;
   margin-top: 20px;
   padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  background-color: #b1befb;
+  border: 4px solid #ddd;
+  border-radius: 35px;
 }
-
 /* Style for the links */
 a {
   color: #007bff;

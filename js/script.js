@@ -105,34 +105,41 @@ function nextStep() {
 function prevStep() {
     if (step == 2) {
         step--;
+        removeErrorMessage(document.getElementById("age")); // Remove age error message
         document.getElementById("s-Heading").innerText = "Step " + step + ": What is your gender?";
         document.getElementById("page1").style.display = "block"; // Show previous question
         document.getElementById("page2").style.display = "none"; // Hide current question
         document.getElementById("prev-btn").style.display = "none"; // Hide previous button on step 1
     } else if (step == 3) {
         step--;
+        removeErrorMessage(document.getElementById("total-cholesterol")); // Remove total cholesterol error message
         document.getElementById("s-Heading").innerText = "Step " + step + ": What is your age?";
         document.getElementById("page2").style.display = "block"; // Show previous question
         document.getElementById("page3").style.display = "none"; // Hide current question
     } else if (step == 4) {
         step--;
+        removeErrorMessage(document.getElementById("hdl-cholesterol")); // Remove HDL cholesterol error message
         document.getElementById("s-Heading").innerText = "Step " + step + ": What is your total cholesterol?";
         document.getElementById("page3").style.display = "block"; // Show previous question
         document.getElementById("page4").style.display = "none"; // Hide current question
     } else if (step == 5) {
         step--;
+        removeErrorMessage(document.querySelectorAll('input[name="smoker"]')[0]); // Remove smoker error message
         document.getElementById("s-Heading").innerText = "Step " + step + ": Are you a smoker?";
         document.getElementById("page4").style.display = "block"; // Show previous question
         document.getElementById("page5").style.display = "none"; // Hide current question
         document.getElementById("next-btn").style.display = "inline-block"; // Show next button when going back from step 6
     } else if (step == 6) {
         step--;
+        removeErrorMessage(document.getElementById("SystolicBP")); // Remove systolic BP error message
+        removeErrorMessage(document.querySelectorAll('input[name="treated"]')[0]); // Remove treated error message
         document.getElementById("s-Heading").innerText = "Step " + step + ": What is your HDL Cholesterol?";
         document.getElementById("page5").style.display = "block"; // Show previous question
         document.getElementById("page6").style.display = "none"; // Hide current question
         document.getElementById("next-btn").style.display = "inline-block"; // Show next button when going back from step 6
     }
     document.getElementById("result-btn").style.display = "none"; // Hide the Results button
+    
 }
 
 
@@ -522,7 +529,7 @@ function calculateRiskPercentage(totalPoints) {
     console.log(isMale);
 
     if (isMale) {
-        if (totalPoints === 0) {
+        if (totalPoints === 0 || totalPoints < 0) {
             return "<1%";
         } else if (totalPoints >= 1 && totalPoints <= 4) {
             return "1%";
@@ -590,9 +597,18 @@ function displayError(element, msg){
         return;                 
     }
     
+
+
     var msgElement = document.createElement("span");
     msgElement.textContent = msg;
-    msgElement.style.color = "red";                 
+    msgElement.style.color = "red";
+    msgElement.style.fontFamily ='DM Sans', 'sans-serif';             
+    msgElement.style.marginLeft = "5px"; // Add margin here to create spacing
+    msgElement.classList.add("error-msg"); // Add a class to the error message element
+
+
+   
+
     element.parentNode.insertBefore(msgElement, element.nextSibling);                 
     element.style.border = "solid 1px red";        
 }
@@ -656,10 +672,12 @@ function validateSystolicBloodPressureInput() {
     return validateNumberInput(systolicBPInput, MIN_SYSTOLIC_BLOOD_PRESSURE, MAX_SYSTOLIC_BLOOD_PRESSURE);
 }
 
+
 // Example validation function for treated radio buttons
 function validateTreatedRadioInput() {
     const treatedRadioButtons = document.querySelectorAll('input[name="treated"]');
-    return validateRadioInput(treatedRadioButtons);
+    return validateRadioInput(treatedRadioButtons)
+    
 }
 
 // Function to restart the form
@@ -678,7 +696,7 @@ function restart() {
 }
   
 document.addEventListener("DOMContentLoaded", start)
-document.getElementById("result-btn").addEventListener("click", () => calculateRisk(totalPoints, isMale));
+document.getElementById("result-btn").addEventListener("click",calculateRisk);
 document.getElementById("prev-btn").addEventListener("click", prevStep);
 document.getElementById("next-btn").addEventListener("click", nextStep);
 document.getElementById("restart-btn").addEventListener("click", restart);
